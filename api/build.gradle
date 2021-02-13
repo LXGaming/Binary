@@ -1,0 +1,29 @@
+plugins {
+    id "java-library"
+    id "net.kyori.blossom"
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+group = "io.github.lxgaming"
+archivesBaseName = "binary-api"
+
+blossom {
+    replaceToken("@version@", version)
+}
+
+configurations {
+}
+
+repositories {
+}
+
+dependencies {
+    api("org.checkerframework:checker-qual:${checkerqualVersion}")
+}
+
+processResources {
+    from("../LICENSE")
+    rename("LICENSE", "LICENSE-Binary")
+}

@@ -1,0 +1,9 @@
+include "api"
+include "serializer-msgpack"
+
+[
+    "api",
+    "serializer-msgpack"
+].each {
+    findProject(":$it")?.name = "binary-$it"
+}

@@ -1,0 +1,103 @@
+plugins {
+    id "net.kyori.blossom" version "1.1.0" apply false
+}
+
+subprojects {
+    apply plugin: "java"
+    apply plugin: "maven-publish"
+    apply plugin: "signing"
+
+    repositories {
+        mavenCentral()
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots"
+        }
+    }
+
+    dependencies {
+        testImplementation("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        archiveClassifier.set("javadoc")
+        from javadoc.destinationDir
+    }
+
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        archiveClassifier.set("sources")
+        from sourceSets.main.allSource
+    }
+
+    artifacts {
+        archives javadocJar
+        archives sourcesJar
+    }
+
+    javadoc {
+        failOnError = false
+    }
+
+    publishing {
+        publications {
+            mavenPublication(MavenPublication) {
+                from components.java
+                groupId group
+                artifactId archivesBaseName
+                version version
+                artifact javadocJar
+                artifact sourcesJar
+                pom {
+                    name = "Binary"
+                    description = "Binary Serialization Utility"
+                    url = "https://github.com/LXGaming/Binary"
+                    developers {
+                        developer {
+                            id = "lxgaming"
+                            name = "LXGaming"
+                        }
+                    }
+                    issueManagement {
+                        system = "GitHub Issues"
+                        url = "https://github.com/LXGaming/Binary/issues"
+                    }
+                    licenses {
+                        license {
+                            name = "The Apache License, Version 2.0"
+                            url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                        }
+                    }
+                    scm {
+                        connection = "scm:git@github.com:LXGaming/Binary.git"
+                        developerConnection = "scm:git@github.com:LXGaming/Binary.git"
+                        url = "https://github.com/LXGaming/Binary"
+                    }
+                }
+            }
+        }
+        repositories {
+            if (project.hasProperty("sonatype.username") && project.hasProperty("sonatype.password")) {
+                maven {
+                    name = "sonatype"
+                    url = version.contains("-SNAPSHOT") ? "https://oss.sonatype.org/content/repositories/snapshots" : "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+                    credentials {
+                        username project.property("sonatype.username")
+                        password project.property("sonatype.password")
+                    }
+                }
+            }
+        }
+    }
+
+    signing {
+        sign publishing.publications
+    }
+
+    test {
+        testLogging {
+            exceptionFormat = "full"
+        }
+
+        useJUnitPlatform()
+    }
+}

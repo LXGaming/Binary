@@ -1,0 +1,22 @@
+plugins {
+    id "java-library"
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+group = "io.github.lxgaming"
+archivesBaseName = "binary-serializer-msgpack"
+
+configurations {
+    compileJava.dependsOn(":binary-api:build")
+}
+
+repositories {
+}
+
+dependencies {
+    api(project(path: ":binary-api"))
+    api("org.msgpack:msgpack-core:${msgpackVersion}")
+    testImplementation("io.netty:netty-buffer:${nettyVersion}")
+}
