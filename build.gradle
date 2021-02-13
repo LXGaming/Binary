@@ -7,6 +7,8 @@ subprojects {
     apply plugin: "maven-publish"
     apply plugin: "signing"
 
+    group = "io.github.lxgaming"
+
     repositories {
         mavenCentral()
         maven {

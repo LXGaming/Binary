@@ -5,7 +5,6 @@ plugins {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-group = "io.github.lxgaming"
 archivesBaseName = "binary-serializer-msgpack"
 
 configurations {
