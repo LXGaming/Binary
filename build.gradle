@@ -21,19 +21,9 @@ subprojects {
         testImplementation("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
     }
 
-    task javadocJar(type: Jar, dependsOn: javadoc) {
-        archiveClassifier.set("javadoc")
-        from javadoc.destinationDir
-    }
-
-    task sourcesJar(type: Jar, dependsOn: classes) {
-        archiveClassifier.set("sources")
-        from sourceSets.main.allSource
-    }
-
-    artifacts {
-        archives javadocJar
-        archives sourcesJar
+    java {
+        withJavadocJar()
+        withSourcesJar()
     }
 
     javadoc {
@@ -47,8 +37,6 @@ subprojects {
                 groupId group
                 artifactId archivesBaseName
                 version version
-                artifact javadocJar
-                artifact sourcesJar
                 pom {
                     name = "Binary"
                     description = "Binary Serialization Utility"
