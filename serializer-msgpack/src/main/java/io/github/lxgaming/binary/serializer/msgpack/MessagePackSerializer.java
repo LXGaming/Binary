@@ -290,9 +290,8 @@ public class MessagePackSerializer implements BinarySerializer {
     }
     
     protected ListTag readList(@NonNull MessageUnpacker unpacker) throws IOException {
-        byte code = unpacker.unpackByte();
         int size = unpacker.unpackArrayHeader();
-        ListTag list = new ListTag(getType(code));
+        ListTag list = new ListTag();
         for (int index = 0; index < size; index++) {
             Tag tag = read(unpacker);
             list.add(tag);
@@ -302,63 +301,9 @@ public class MessagePackSerializer implements BinarySerializer {
     }
     
     protected void writeList(@NonNull MessagePacker packer, @NonNull ListTag list) throws IOException {
-        byte code = getCode(list.getType());
-        packer.packByte(code);
         packer.packArrayHeader(list.size());
         for (Tag tag : list) {
             write(packer, tag);
-        }
-    }
-    
-    protected byte getCode(@NonNull Class<? extends Tag> type) {
-        if (type == Tag.class) {
-            return MessagePack.Code.NIL;
-        } else if (type == BooleanTag.class) {
-            return MessagePack.Code.TRUE;
-        } else if (type == ByteTag.class) {
-            return MessagePack.Code.INT8;
-        } else if (type == ShortTag.class) {
-            return MessagePack.Code.INT16;
-        } else if (type == IntTag.class) {
-            return MessagePack.Code.INT32;
-        } else if (type == LongTag.class) {
-            return MessagePack.Code.INT64;
-        } else if (type == FloatTag.class) {
-            return MessagePack.Code.FLOAT32;
-        } else if (type == DoubleTag.class) {
-            return MessagePack.Code.FLOAT64;
-        } else if (type == StringTag.class) {
-            return MessagePack.Code.STR32;
-        } else if (CollectionTag.class.isAssignableFrom(type)) {
-            return MessagePack.Code.ARRAY32;
-        } else {
-            throw new UnsupportedOperationException(String.format("%s is not supported", type.getName()));
-        }
-    }
-    
-    protected Class<? extends Tag> getType(int code) {
-        if (code == MessagePack.Code.NIL) {
-            return Tag.class;
-        } else if (code == MessagePack.Code.FALSE || code == MessagePack.Code.TRUE) {
-            return BooleanTag.class;
-        } else if (code == MessagePack.Code.INT8) {
-            return ByteTag.class;
-        } else if (code == MessagePack.Code.INT16) {
-            return ShortTag.class;
-        } else if (code == MessagePack.Code.INT32) {
-            return IntTag.class;
-        } else if (code == MessagePack.Code.INT64) {
-            return LongTag.class;
-        } else if (code == MessagePack.Code.FLOAT32) {
-            return FloatTag.class;
-        } else if (code == MessagePack.Code.FLOAT64) {
-            return DoubleTag.class;
-        } else if (code == MessagePack.Code.STR32) {
-            return StringTag.class;
-        } else if (code == MessagePack.Code.ARRAY32) {
-            return CollectionTag.class;
-        } else {
-            throw new UnsupportedOperationException(String.format("%s is not supported", code));
         }
     }
 }

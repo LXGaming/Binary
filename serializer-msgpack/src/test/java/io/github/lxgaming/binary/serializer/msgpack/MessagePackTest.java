@@ -17,14 +17,21 @@
 package io.github.lxgaming.binary.serializer.msgpack;
 
 import io.github.lxgaming.binary.tag.BooleanTag;
+import io.github.lxgaming.binary.tag.ByteArrayTag;
 import io.github.lxgaming.binary.tag.ByteTag;
 import io.github.lxgaming.binary.tag.CompoundTag;
+import io.github.lxgaming.binary.tag.DoubleArrayTag;
 import io.github.lxgaming.binary.tag.DoubleTag;
+import io.github.lxgaming.binary.tag.FloatArrayTag;
 import io.github.lxgaming.binary.tag.FloatTag;
+import io.github.lxgaming.binary.tag.IntArrayTag;
 import io.github.lxgaming.binary.tag.IntTag;
 import io.github.lxgaming.binary.tag.ListTag;
+import io.github.lxgaming.binary.tag.LongArrayTag;
 import io.github.lxgaming.binary.tag.LongTag;
+import io.github.lxgaming.binary.tag.ShortArrayTag;
 import io.github.lxgaming.binary.tag.ShortTag;
+import io.github.lxgaming.binary.tag.StringTag;
 import io.github.lxgaming.binary.tag.Tag;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
@@ -86,6 +93,15 @@ public class MessagePackTest {
         compound.putList("long_list", createList(new LongTag()));
         compound.putList("float_list", createList(new FloatTag()));
         compound.putList("double_list", createList(new DoubleTag()));
+        compound.putList("byte_array_list", createList(new ByteArrayTag()));
+        compound.putList("string_list", createList(new StringTag()));
+        compound.putList("short_array_list", createList(new ShortArrayTag()));
+        compound.putList("int_array_list", createList(new IntArrayTag()));
+        compound.putList("long_array_list", createList(new LongArrayTag()));
+        compound.putList("float_array_list", createList(new FloatArrayTag()));
+        compound.putList("double_array_list", createList(new DoubleArrayTag()));
+        compound.putList("list_list", createList(createList()));
+        compound.putList("compound_list", createList(new CompoundTag()));
         
         compound.putCompound("compound", compound.copy());
         
