@@ -52,6 +52,10 @@ public final class CompoundTag implements CollectionTag {
         this.tags.remove(key);
     }
     
+    public void clear() {
+        this.tags.clear();
+    }
+    
     public @NonNull Set<String> keySet() {
         return this.tags.keySet();
     }

@@ -72,6 +72,10 @@ public final class ListTag implements CollectionTag, Iterable<Tag> {
         return this.tags.remove(index);
     }
     
+    public void clear() {
+        this.tags.clear();
+    }
+    
     public @NonNull Class<? extends Tag> getType() {
         return type;
     }
