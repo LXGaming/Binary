@@ -16,17 +16,19 @@
 
 package io.github.lxgaming.binary.serializer.msgpack;
 
+import org.msgpack.core.MessagePack;
 import org.msgpack.core.MessagePacker;
 
+import java.io.IOException;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Method;
 
 public class MessagePackerUtils {
     
-    protected static MethodHandle writeByteAndShort;
-    protected static MethodHandle writeByteAndInt;
-    protected static MethodHandle writeByteAndLong;
+    private static MethodHandle writeByteAndShort;
+    private static MethodHandle writeByteAndInt;
+    private static MethodHandle writeByteAndLong;
     
     static {
         MethodHandles.Lookup lookup = MethodHandles.lookup();
@@ -45,6 +47,54 @@ public class MessagePackerUtils {
             writeByteAndLong = lookup.unreflect(writeByteAndLongMethod);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
+        }
+    }
+    
+    public static MessagePacker packShort(MessagePacker packer, short value) throws IOException {
+        try {
+            if (value < 0) {
+                MessagePackerUtils.writeByteAndShort.invoke(packer, MessagePack.Code.INT16, value);
+            } else {
+                MessagePackerUtils.writeByteAndShort.invoke(packer, MessagePack.Code.UINT16, value);
+            }
+            
+            return packer;
+        } catch (IOException ex) {
+            throw ex;
+        } catch (Throwable throwable) {
+            throw new RuntimeException(throwable);
+        }
+    }
+    
+    public static MessagePacker packInt(MessagePacker packer, int value) throws IOException {
+        try {
+            if (value < 0) {
+                MessagePackerUtils.writeByteAndInt.invoke(packer, MessagePack.Code.INT32, value);
+            } else {
+                MessagePackerUtils.writeByteAndInt.invoke(packer, MessagePack.Code.UINT32, value);
+            }
+            
+            return packer;
+        } catch (IOException ex) {
+            throw ex;
+        } catch (Throwable throwable) {
+            throw new RuntimeException(throwable);
+        }
+    }
+    
+    public static MessagePacker packLong(MessagePacker packer, long value) throws IOException {
+        try {
+            if (value < 0) {
+                MessagePackerUtils.writeByteAndLong.invoke(packer, MessagePack.Code.INT64, value);
+            } else {
+                MessagePackerUtils.writeByteAndLong.invoke(packer, MessagePack.Code.UINT64, value);
+            }
+            
+            return packer;
+        } catch (IOException ex) {
+            throw ex;
+        } catch (Throwable throwable) {
+            throw new RuntimeException(throwable);
         }
     }
 }

@@ -30,52 +30,16 @@ public class MessagePackerImpl extends MessagePacker {
     
     @Override
     public MessagePacker packShort(short v) throws IOException {
-        try {
-            if (v < 0) {
-                MessagePackerUtils.writeByteAndShort.invoke(this, MessagePack.Code.INT16, v);
-            } else {
-                MessagePackerUtils.writeByteAndShort.invoke(this, MessagePack.Code.UINT16, v);
-            }
-            
-            return this;
-        } catch (IOException ex) {
-            throw ex;
-        } catch (Throwable throwable) {
-            throw new RuntimeException(throwable);
-        }
+        return MessagePackerUtils.packShort(this, v);
     }
     
     @Override
     public MessagePacker packInt(int r) throws IOException {
-        try {
-            if (r < 0) {
-                MessagePackerUtils.writeByteAndInt.invoke(this, MessagePack.Code.INT32, r);
-            } else {
-                MessagePackerUtils.writeByteAndInt.invoke(this, MessagePack.Code.UINT32, r);
-            }
-            
-            return this;
-        } catch (IOException ex) {
-            throw ex;
-        } catch (Throwable throwable) {
-            throw new RuntimeException(throwable);
-        }
+        return MessagePackerUtils.packInt(this, r);
     }
     
     @Override
     public MessagePacker packLong(long v) throws IOException {
-        try {
-            if (v < 0) {
-                MessagePackerUtils.writeByteAndLong.invoke(this, MessagePack.Code.INT64, v);
-            } else {
-                MessagePackerUtils.writeByteAndLong.invoke(this, MessagePack.Code.UINT64, v);
-            }
-            
-            return this;
-        } catch (IOException ex) {
-            throw ex;
-        } catch (Throwable throwable) {
-            throw new RuntimeException(throwable);
-        }
+        return MessagePackerUtils.packLong(this, v);
     }
 }
