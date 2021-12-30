@@ -8,7 +8,6 @@ targetCompatibility = 1.8
 archivesBaseName = "binary-serializer-msgpack"
 
 configurations {
-    compileJava.dependsOn(":binary-api:build")
 }
 
 repositories {
@@ -18,4 +17,8 @@ dependencies {
     api(project(path: ":binary-api"))
     api("org.msgpack:msgpack-core:${msgpackVersion}")
     testImplementation("io.netty:netty-buffer:${nettyVersion}")
+}
+
+compileJava {
+    dependsOn(":binary-api:build")
 }
