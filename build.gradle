@@ -58,8 +58,8 @@ subprojects {
                         }
                     }
                     scm {
-                        connection = "scm:git@github.com:LXGaming/Binary.git"
-                        developerConnection = "scm:git@github.com:LXGaming/Binary.git"
+                        connection = "scm:git:https://github.com/LXGaming/Binary.git"
+                        developerConnection = "scm:git:https://github.com/LXGaming/Binary.git"
                         url = "https://github.com/LXGaming/Binary"
                     }
                 }
